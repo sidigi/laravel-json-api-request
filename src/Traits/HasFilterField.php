@@ -4,111 +4,98 @@ declare(strict_types=1);
 
 namespace Sidigi\LaravelJsonApiRequest\Traits;
 
-use Illuminate\Support\Str;
-
 trait HasFilterField
 {
     protected string $filterField = 'filter';
-    protected $defaultMultipleRules = ['nullable', 'array'];
+    protected $defaultRules = ['nullable', 'array'];
 
     public function filterKey() : string
     {
         return $this->filterField;
     }
 
-    public function filters() : array
+    public function filters(string $key = null)
     {
-        return explode(',', $this->{$this->filterKey()});
+        $filters = $this->strToArray(
+            $this->{$this->filterKey()}
+        );
+
+        if ($key) {
+            return $filters[$key] ?? null;
+        }
+
+        return $filters;
     }
 
-    /**
-     * Merge default rules with rules, which need to be array
-     * It need if we have in query "filter[id]=1,2,3" - it is array
-     * and rules need to be array.
-     *
-     * @return array
-     */
+    public function hasFilter(string $name) : bool
+    {
+        return array_key_exists($name, $this->filters());
+    }
+
     protected function filterRules() : array
     {
-        $filterRules = collect([
-            $this->filterKey => $this->defaultMultipleRules,
-        ]);
-
-        collect($this->filterMultipleRules())
-            ->each(function ($item, $key) use (&$filterRules) {
-                if ($this->isForArray($key)) {
-                    $filterRules[$key] = $this->defaultMultipleRules;
-                    $filterRules[$key.'.*'] = $item;
-                } else {
-                    $filterRules[$key] = array_merge(['nullable'], $item);
-                }
-            });
-
-        return array_merge_recursive(
-            $filterRules->toArray(),
-            $this->filterSingleRules()
+        return array_replace_recursive(
+            [$this->filterKey() => $this->defaultRules],
+            $this->getValueFilterRules(),
+            $this->getEachValueFilterRules(),
         );
     }
 
-    /**
-     * Replace filter values if it need check multiple values.
-     *
-     * filter.id => filter.id = nullable, array
-     *              filter.id.* = rules, which was set
-     *
-     * @return void
-     */
-    protected function prepareForValidation() : void
-    {
-        if (! is_array($this->filter)) {
-            return;
-        }
-
-        $this->merge([
-            $this->filterKey => $this->strToArray($this->filter),
-        ]);
-    }
-
-    protected function filterMultipleRules() : array
+    protected function eachValueFilterRules() : array
     {
         return [];
     }
 
-    protected function filterSingleRules() : array
+    protected function valueFilterRules() : array
     {
         return [];
     }
 
-    /**
-     * Make string to array if it has "," in it.
-     *
-     * 1,2,3,4,5 => [1,2,3,4,5]
-     * 1 => 1
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function strToArray(array $data) : array
+    protected function strToArray($data) : array
     {
-        return collect($data)->mapWithKeys(function (?string $item, string $key) {
-            $values = explode(',', $item);
+        return collect($data)
+            ->filter()
+            ->mapWithKeys(function (?string $item, string $key) {
+                $values = explode(',', $item);
 
-            return [
-                $key => count($values) === 1 ? $values[0] : $values,
-            ];
-        })->toArray();
+                return [
+                    $key => count($values) === 1 ? $values[0] : $values,
+                ];
+            })
+            ->toArray();
     }
 
-    /**
-     * Check if it has value in input request and it is an array.
-     *
-     * @param string $name
-     * @return bool
-     */
-    protected function isForArray(string $name) : bool
+    private function getValueFilterRules() : array
     {
-        $key = Str::replaceFirst("{$this->filterKey}.", '', $name);
+        return collect($this->valueFilterRules())->mapWithKeys(
+            fn ($item, $key) => [
+                $this->filterKey().'.'.$key => array_merge($this->defaultRules, $item),
+            ]
+        )
+        ->toArray();
+    }
 
-        return isset($this->filter[$key]) && is_array($this->filter[$key]);
+    private function getEachValueFilterRules() : array
+    {
+        $filterRules = collect();
+
+        collect($this->eachValueFilterRules())
+            ->each(function ($item, $key) use (&$filterRules) {
+                $withFilterKey = $this->filterKey().'.'.$key;
+
+                if ($this->isForArray($key)) {
+                    $filterRules[$withFilterKey] = $this->defaultRules;
+                    $filterRules[$withFilterKey.'.*'] = $item;
+                } else {
+                    $filterRules[$withFilterKey] = array_merge(['nullable'], $item);
+                }
+            })->toArray();
+
+        return $filterRules->toArray();
+    }
+
+    private function isForArray(string $name) : bool
+    {
+        return $this->filters($name) && is_array($this->filters($name));
     }
 }
