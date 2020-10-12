@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Skeleton\Tests;
+namespace Sidigi\LaravelJsonApiRequest\Tests;
 
 use PHPUnit\Framework\TestCase;
 

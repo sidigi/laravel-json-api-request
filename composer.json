@@ -1,16 +1,16 @@
 {
-    "name": ":vendor_name/:package_name",
-    "description": ":package_description",
+    "name": "sidigi/laravel-json-api-request",
+    "description": "",
     "keywords": [
-        ":vendor_name",
-        ":package_name"
+        "sidigi",
+        "laravel-json-api-request"
     ],
-    "homepage": "https://github.com/:vendor_name/:package_name",
+    "homepage": "https://github.com/sidigi/laravel-json-api-request",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
+            "name": "Sidigi",
+            "email": "sidigicoder@gmail.com",
             "homepage": "https://spatie.be",
             "role": "Developer"
         }
@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src"
+            "Sidigi\\LaravelJsonApiRequest\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Tests\\": "tests"
+            "Sidigi\\LaravelJsonApiRequest\\Tests\\": "tests"
         }
     },
     "scripts": {
