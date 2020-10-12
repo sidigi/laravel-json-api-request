@@ -10,7 +10,7 @@ trait HasSortFields
 {
     protected string $sortField = 'sort';
 
-    public function sortKey()
+    public function sortKey() : string
     {
         return $this->sortField;
     }

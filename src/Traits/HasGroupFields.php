@@ -10,7 +10,7 @@ trait HasGroupFields
 {
     protected string $groupField = 'group';
 
-    public function groupKey()
+    public function groupKey() : string
     {
         return $this->groupField;
     }

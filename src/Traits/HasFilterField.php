@@ -11,7 +11,7 @@ trait HasFilterField
     protected string $filterField = 'filter';
     protected $defaultMultipleRules = ['nullable', 'array'];
 
-    public function filterKey()
+    public function filterKey() : string
     {
         return $this->filterField;
     }

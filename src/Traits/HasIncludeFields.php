@@ -10,7 +10,7 @@ trait HasIncludeFields
 {
     protected string $includeField = 'include';
 
-    public function includeKey()
+    public function includeKey() : string
     {
         return $this->includeField;
     }
