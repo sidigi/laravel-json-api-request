@@ -20,6 +20,8 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
+        "mohammedmanssour/form-request-tester": "^1.0",
+        "orchestra/testbench": "^6.2",
         "phpunit/phpunit": "^9.3",
         "vimeo/psalm": "^3.11"
     },
