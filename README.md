@@ -1,19 +1,10 @@
-# 
+#
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/sidigi/laravel-json-api-request.svg?style=flat-square)](https://packagist.org/packages/sidigi/laravel-json-api-request)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/sidigi/laravel-json-api-request/run-tests?label=tests)](https://github.com/sidigi/laravel-json-api-request/actions?query=workflow%3Arun-tests+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/sidigi/laravel-json-api-request.svg?style=flat-square)](https://packagist.org/packages/sidigi/laravel-json-api-request)
 
-
-This is where your description should go. Try and limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/package-skeleton-php.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/package-skeleton-php)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Provide some JSON API validation stuff JSON API for laravel Form requests.
 
 ## Installation
 
@@ -25,14 +16,78 @@ composer require sidigi/laravel-json-api-request
 
 ## Usage
 
-``` php
-$skeleton = new Sidigi\LaravelJsonApiRequest();
-echo $skeleton->echoPhrase('Hello, Sidigi!');
+### Controller
+
+```php
+    public function index(UserIndexRequest $request)
+    {
+        $users = User::all();
+
+        return response()->json($users);
+    }
+```
+
+### Form Request
+
+```php
+use Illuminate\Foundation\Http\FormRequest;
+use Sidigi\LaravelJsonApiRequest\Traits;
+
+class UserIndexRequest extends FormRequest
+{
+    use IsJsonApiRequest;
+
+    public function rules()
+    {
+        return $this->jsonApiRules()
+    }
+
+    //filter value ?filter[id]=1
+    public function valueFilterRules()
+    {
+        return [
+            'id' => 'exists:users,id'
+        ]
+    }
+
+    //filter value ?filter[id]=1,2,3
+    public function eachValueFilterRules()
+    {
+        return [
+            'id' => 'integer'
+        ]
+    }
+}
+```
+
+```php
+use Illuminate\Foundation\Http\FormRequest;
+use Sidigi\LaravelJsonApiRequest\Traits;
+
+class UserIndexRequest extends FormRequest
+{
+    use HasFilterField,
+        HasGroupFields,
+        HasIncludeFields,
+        HasBasePaginationFields,
+        HasSortFields;
+
+    public function rules()
+    {
+        return array_merge(
+            $this->sortRules(), // HasSortFields
+            $this->filterRules(), //HasFilterField
+            $this->groupRules(), //HasGroupFields
+            $this->includeRules(), //HasIncludeFields
+            $this->paginationRules() //HasBasePaginationFields
+        );
+    }
+}
 ```
 
 ## Testing
 
-``` bash
+```bash
 composer test
 ```
 
@@ -50,8 +105,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Sidigi](https://github.com/Sidigi)
-- [All Contributors](../../contributors)
+-   [Sidigi](https://github.com/Sidigi)
+-   [All Contributors](../../contributors)
 
 ## License
 
