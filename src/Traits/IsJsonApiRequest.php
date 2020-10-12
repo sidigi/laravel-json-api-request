@@ -6,7 +6,11 @@ namespace Sidigi\LaravelJsonApiRequest\Traits;
 
 trait IsJsonApiRequest
 {
-    use HasFilterField, HasGroupFields, HasIncludeFields, HasBasePaginationFields, HasSortFields;
+    use HasFilterField;
+    use HasGroupFields;
+    use HasIncludeFields;
+    use HasBasePaginationFields;
+    use HasSortFields;
 
     public function jsonApiRules() : array
     {
