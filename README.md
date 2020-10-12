@@ -42,7 +42,7 @@ class UserIndexRequest extends FormRequest
         return $this->jsonApiRules()
     }
 
-    //filter value ?filter[id]=1
+    //filter value ?filter[id]=1,2,3 - for all values
     public function valueFilterRules()
     {
         return [
@@ -50,7 +50,7 @@ class UserIndexRequest extends FormRequest
         ]
     }
 
-    //filter value ?filter[id]=1,2,3
+    //filter value ?filter[id]=1,2,3 - for each values
     public function eachValueFilterRules()
     {
         return [
