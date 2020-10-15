@@ -7,5 +7,9 @@ return [
         'number' => [
             'min' => 1,
         ],
+        'size' => [
+            'min' => 1,
+            'max' => 100,
+        ],
     ],
 ];
