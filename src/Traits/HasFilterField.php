@@ -9,6 +9,11 @@ trait HasFilterField
     protected string $filterField = 'filter';
     protected $defaultRules = ['nullable', 'array'];
 
+    protected function prepareForValidation() : void
+    {
+        $this->prepareFiltersForValidation();
+    }
+
     public function filterKey() : string
     {
         return $this->filterField;
@@ -16,9 +21,7 @@ trait HasFilterField
 
     public function filters(string $key = null)
     {
-        $filters = $this->strToArray(
-            $this->{$this->filterKey()}
-        );
+        $filters = $this->{$this->filterKey()};
 
         if ($key) {
             return $filters[$key] ?? null;
@@ -39,6 +42,19 @@ trait HasFilterField
             $this->getValueFilterRules(),
             $this->getEachValueFilterRules(),
         );
+    }
+
+    protected function prepareFiltersForValidation() : void
+    {
+        $filters = $this->{$this->filterKey()};
+
+        if (! is_array($filters)) {
+            return;
+        }
+
+        $this->merge([
+            $this->filterKey() => $this->strToArray($filters),
+        ]);
     }
 
     protected function eachValueFilterRules() : array
