@@ -17,7 +17,7 @@ trait HasIncludeFields
 
     public function includes() : array
     {
-        return explode(',', (string) $this->{$this->includeKey()});
+        return array_filter(explode(',', (string) $this->{$this->includeKey()}));
     }
 
     public function hasInclude(string $name) : bool

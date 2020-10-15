@@ -17,7 +17,7 @@ trait HasGroupFields
 
     public function groups() : array
     {
-        return explode(',', (string) $this->{$this->groupKey()});
+        return array_filter(explode(',', (string) $this->{$this->groupKey()}));
     }
 
     public function hasGroup(string $name) : bool

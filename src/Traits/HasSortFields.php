@@ -17,7 +17,7 @@ trait HasSortFields
 
     public function sorts() : array
     {
-        return explode(',', (string) $this->{$this->sortKey()});
+        return array_filter(explode(',', (string) $this->{$this->sortKey()}));
     }
 
     public function hasSort(string $name) : bool
