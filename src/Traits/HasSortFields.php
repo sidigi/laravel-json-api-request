@@ -10,17 +10,17 @@ trait HasSortFields
 {
     protected string $sortField = 'sort';
 
-    public function sortKey() : string
+    public function sortKey(): string
     {
         return $this->sortField;
     }
 
-    public function sorts() : array
+    public function sorts(): array
     {
         return array_filter(explode(',', (string) $this->{$this->sortKey()}));
     }
 
-    public function hasSort(string $name) : bool
+    public function hasSort(string $name): bool
     {
         return collect($this->sorts())
             ->contains(
@@ -28,7 +28,7 @@ trait HasSortFields
             );
     }
 
-    public function sortRules() : array
+    public function sortRules(): array
     {
         $includeKey = $this->sortKey();
 

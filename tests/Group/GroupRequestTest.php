@@ -10,11 +10,11 @@ class GroupRequestTest extends TestCase
 {
     protected ?FormRequest $formClass = null;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->formClass = new class extends FormRequest {
+        $this->formClass = new class() extends FormRequest {
             use HasGroupFields;
 
             public function rules()
@@ -47,7 +47,7 @@ class GroupRequestTest extends TestCase
 
     public function test_it_can_get_groups()
     {
-        $request = (new $this->formClass);
+        $request = (new $this->formClass());
 
         $groupData = 'fieldOne,fieldTwo.fieldThree';
 
@@ -63,7 +63,7 @@ class GroupRequestTest extends TestCase
 
     public function test_it_can_has_group()
     {
-        $request = (new $this->formClass);
+        $request = (new $this->formClass());
 
         $groupData = 'fieldOne,fieldTwo.fieldThree';
 

@@ -10,11 +10,11 @@ class FilterSingleFieldsRequestTest extends TestCase
 {
     protected ?FormRequest $formClass = null;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->formClass = new class extends FormRequest {
+        $this->formClass = new class() extends FormRequest {
             use HasFilterField;
 
             public function rules()
@@ -34,7 +34,7 @@ class FilterSingleFieldsRequestTest extends TestCase
 
     public function test_it_has_single_filters_rules()
     {
-        $request = (new $this->formClass);
+        $request = (new $this->formClass());
 
         $this->assertEquals($request->rules(), [
             'filter' => [

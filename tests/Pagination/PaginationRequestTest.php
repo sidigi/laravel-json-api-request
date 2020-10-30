@@ -10,11 +10,11 @@ class PaginationRequestTest extends TestCase
 {
     protected ?FormRequest $formClass = null;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->formClass = new class extends FormRequest {
+        $this->formClass = new class() extends FormRequest {
             use HasBasePaginationFields;
 
             public function rules()
@@ -121,10 +121,10 @@ class PaginationRequestTest extends TestCase
 
     public function test_it_can_get_pages()
     {
-        $request = (new $this->formClass);
+        $request = (new $this->formClass());
 
         $pageData = [
-            'size' => 100,
+            'size'   => 100,
             'number' => 1,
         ];
 

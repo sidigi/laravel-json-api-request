@@ -10,11 +10,11 @@ class SortRequestTest extends TestCase
 {
     protected ?FormRequest $formClass = null;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->formClass = new class extends FormRequest {
+        $this->formClass = new class() extends FormRequest {
             use HasSortFields;
 
             public function rules()
@@ -47,7 +47,7 @@ class SortRequestTest extends TestCase
 
     public function test_it_can_get_sorts()
     {
-        $request = (new $this->formClass);
+        $request = (new $this->formClass());
 
         $sortData = 'fieldOne,fieldTwo.fieldThree';
 
@@ -63,7 +63,7 @@ class SortRequestTest extends TestCase
 
     public function test_it_can_has_include()
     {
-        $request = (new $this->formClass);
+        $request = (new $this->formClass());
 
         $sortData = 'fieldOne,fieldTwo.fieldThree';
 
