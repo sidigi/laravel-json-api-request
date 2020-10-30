@@ -43,7 +43,7 @@ trait HasBasePaginationFields
             'integer',
         ];
 
-        if (!is_null($min = $this->minNumber())) {
+        if (! is_null($min = $this->minNumber())) {
             $rules[] = 'min:'.$min;
         }
 
@@ -57,11 +57,11 @@ trait HasBasePaginationFields
             'integer',
         ];
 
-        if (!is_null($min = $this->minSize())) {
+        if (! is_null($min = $this->minSize())) {
             $rules[] = 'min:'.$min;
         }
 
-        if (!is_null($max = $this->maxSize())) {
+        if (! is_null($max = $this->maxSize())) {
             $rules[] = 'max:'.$max;
         }
 

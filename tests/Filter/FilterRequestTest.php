@@ -69,8 +69,8 @@ class FilterRequestTest extends TestCase
         $request = $request->merge([
             'filter' => [
                 'columnNull' => '',
-                'columnOne'  => 'valueOne',
-                'columnTwo'  => 'valueTwo,valueThree',
+                'columnOne' => 'valueOne',
+                'columnTwo' => 'valueTwo,valueThree',
             ],
         ]);
 

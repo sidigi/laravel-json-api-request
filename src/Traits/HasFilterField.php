@@ -48,7 +48,7 @@ trait HasFilterField
     {
         $filters = $this->{$this->filterKey()};
 
-        if (!is_array($filters)) {
+        if (! is_array($filters)) {
             return;
         }
 

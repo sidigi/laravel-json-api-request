@@ -124,7 +124,7 @@ class PaginationRequestTest extends TestCase
         $request = (new $this->formClass());
 
         $pageData = [
-            'size'   => 100,
+            'size' => 100,
             'number' => 1,
         ];
 
