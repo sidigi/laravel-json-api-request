@@ -12,7 +12,7 @@ trait IsJsonApiRequest
     use HasBasePaginationFields;
     use HasSortFields;
 
-    public function jsonApiRules() : array
+    public function jsonApiRules(): array
     {
         return array_merge(
             $this->sortRules(),

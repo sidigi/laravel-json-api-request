@@ -10,11 +10,11 @@ class FilterRequestTest extends TestCase
 {
     protected ?FormRequest $formClass = null;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->formClass = new class extends FormRequest {
+        $this->formClass = new class() extends FormRequest {
             use HasFilterField;
 
             public function rules()
@@ -64,7 +64,7 @@ class FilterRequestTest extends TestCase
 
     public function test_it_can_get_filters()
     {
-        $request = (new $this->formClass);
+        $request = (new $this->formClass());
 
         $request = $request->merge([
             'filter' => [
@@ -88,7 +88,7 @@ class FilterRequestTest extends TestCase
 
     public function test_it_can_has_filter()
     {
-        $request = (new $this->formClass);
+        $request = (new $this->formClass());
 
         $request = $request->merge([
             'filter' => [

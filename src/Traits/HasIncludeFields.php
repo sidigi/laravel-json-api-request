@@ -10,17 +10,17 @@ trait HasIncludeFields
 {
     protected string $includeField = 'include';
 
-    public function includeKey() : string
+    public function includeKey(): string
     {
         return $this->includeField;
     }
 
-    public function includes() : array
+    public function includes(): array
     {
         return array_filter(explode(',', (string) $this->{$this->includeKey()}));
     }
 
-    public function hasInclude(string $name) : bool
+    public function hasInclude(string $name): bool
     {
         return collect($this->includes())
             ->contains(
@@ -28,7 +28,7 @@ trait HasIncludeFields
             );
     }
 
-    public function includeRules() : array
+    public function includeRules(): array
     {
         $includeKey = $this->includeKey();
 

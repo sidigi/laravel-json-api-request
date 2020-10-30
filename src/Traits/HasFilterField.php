@@ -9,12 +9,12 @@ trait HasFilterField
     protected string $filterField = 'filter';
     protected $defaultRules = ['nullable', 'array'];
 
-    protected function prepareForValidation() : void
+    protected function prepareForValidation(): void
     {
         $this->prepareFiltersForValidation();
     }
 
-    public function filterKey() : string
+    public function filterKey(): string
     {
         return $this->filterField;
     }
@@ -30,12 +30,12 @@ trait HasFilterField
         return $filters;
     }
 
-    public function hasFilter(string $name) : bool
+    public function hasFilter(string $name): bool
     {
         return array_key_exists($name, $this->filters());
     }
 
-    protected function filterRules() : array
+    protected function filterRules(): array
     {
         return array_replace_recursive(
             [$this->filterKey() => $this->defaultRules],
@@ -44,7 +44,7 @@ trait HasFilterField
         );
     }
 
-    protected function prepareFiltersForValidation() : void
+    protected function prepareFiltersForValidation(): void
     {
         $filters = $this->{$this->filterKey()};
 
@@ -57,17 +57,17 @@ trait HasFilterField
         ]);
     }
 
-    protected function eachValueFilterRules() : array
+    protected function eachValueFilterRules(): array
     {
         return [];
     }
 
-    protected function valueFilterRules() : array
+    protected function valueFilterRules(): array
     {
         return [];
     }
 
-    protected function strToArray($data) : array
+    protected function strToArray($data): array
     {
         return collect($data)
             ->filter()
@@ -81,7 +81,7 @@ trait HasFilterField
             ->toArray();
     }
 
-    private function getValueFilterRules() : array
+    private function getValueFilterRules(): array
     {
         return collect($this->valueFilterRules())->mapWithKeys(
             fn ($item, $key) => [
@@ -91,7 +91,7 @@ trait HasFilterField
         ->toArray();
     }
 
-    private function getEachValueFilterRules() : array
+    private function getEachValueFilterRules(): array
     {
         $filterRules = collect();
 
@@ -110,7 +110,7 @@ trait HasFilterField
         return $filterRules->toArray();
     }
 
-    private function isForArray(string $name) : bool
+    private function isForArray(string $name): bool
     {
         return $this->filters($name) && is_array($this->filters($name));
     }

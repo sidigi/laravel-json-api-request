@@ -18,7 +18,7 @@ class LaravelJsonApiRequestProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/json-api-request.php', 'json-api-request');
     }
 
-    protected function registerPublishables() : self
+    protected function registerPublishables(): self
     {
         $this->publishes([
             __DIR__.'/../config/json-api-request.php' => config_path('json-api-request.php'),

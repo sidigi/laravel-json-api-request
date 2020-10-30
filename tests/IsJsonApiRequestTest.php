@@ -9,11 +9,11 @@ class IsJsonApiRequestTest extends TestCase
 {
     protected ?FormRequest $formClass = null;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->formClass = new class extends FormRequest {
+        $this->formClass = new class() extends FormRequest {
             use IsJsonApiRequest;
 
             public function rules()
@@ -39,7 +39,7 @@ class IsJsonApiRequestTest extends TestCase
 
     public function test_it_can_has_json_api_rules()
     {
-        $request = (new $this->formClass);
+        $request = (new $this->formClass());
 
         $request = $request->merge([
             'filter' => [
